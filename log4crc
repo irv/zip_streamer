@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE log4c SYSTEM "">
+
+<log4c version="1.2.1">
+  
+  <config>
+    <bufsize>0</bufsize>
+    <debug level="2"/>
+    <nocleanup>0</nocleanup>
+    <reread>1</reread>
+  </config>
+  
+  <appender name="stderr" type="stream" layout="dated"/>
+  <appender name="syslog" type="syslog" layout="basic"/>
+  
+  <category name="zip_streamer" priority="debug" appender="stderr" />
+  <category name="zip_streamer" priority="error" appender="syslog" />
+</log4c>
