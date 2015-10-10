@@ -10,7 +10,6 @@
 # build target specs
 CC = gcc
 CFLAGS = -g -O3 -Wall -Werror -Wextra -Wpedantic -Wshadow -Wpointer-arith -Wstrict-prototypes -Wwrite-strings -Wunreachable-code -fno-omit-frame-pointer -fsanitize=address
-OUT_DIR = release_build
 LIBS = -lcurl -larchive -lfcgi -lmagic -llog4c -lpthread
 
 # first target entry is the target invoked when typing 'make'
@@ -18,12 +17,12 @@ default: zip_streamer
 
 zip_streamer: $(OUT_DIR)/zip_streamer.c.o
 	@echo -n 'Linking zip_streamer... '
-	@$(CC) $(CFLAGS) -o zip_streamer $(OUT_DIR)/zip_streamer.c.o $(LIBS)
+	@$(CC) $(CFLAGS) -o zip_streamer zip_streamer.c.o $(LIBS)
 	@echo Done.
 
 $(OUT_DIR)/zip_streamer.c.o: zip_streamer.c
 	@echo -n 'Compiling zip_streamer.c... '
-	@$(CC) $(CFLAGS) -o $(OUT_DIR)/zip_streamer.c.o -c zip_streamer.c
+	@$(CC) $(CFLAGS) -o zip_streamer.c.o -c zip_streamer.c
 	@echo Done.
 
 run:
@@ -42,11 +41,11 @@ debug:
 
 clean:
 	@echo -n 'Removing all temporary binaries... '
-	@rm -f zip_streamer $(OUT_DIR)/*.o
+	@rm -f zip_streamer *.o
 	@echo Done.
 
 clear:
 	@echo -n 'Removing all temporary binaries... '
-	@rm -f zip_streamer $(OUT_DIR)/*.o
+	@rm -f zip_streamer *.o
 	@echo Done.
 

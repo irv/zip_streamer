@@ -9,7 +9,7 @@
 #include "log4c.h"
 #include <pthread.h>
 #include <fcntl.h>
-#define THREAD_COUNT 1
+#define THREAD_COUNT 20
 log4c_category_t *logcat;
 
 struct response {
