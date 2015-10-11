@@ -25,10 +25,11 @@
 #include <fcgiapp.h>
 #include <magic.h>
 #include <signal.h>
-#include "log4c.h"
+#include <log4c.h>
 #include <pthread.h>
-#include <fcntl.h>
+
 #define THREAD_COUNT 20
+
 log4c_category_t *logcat;
 
 struct response {
