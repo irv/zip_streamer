@@ -1,0 +1,10 @@
+*.o
+*.lib
+*.a
+*.la
+*.lo
+
+*.so
+*.so.*
+
+zip_streamer
