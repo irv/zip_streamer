@@ -16,7 +16,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#define _POSIX_C_SOURCE 200809L
 #include <stdlib.h>
 #include <string.h>
 #include <archive.h>
@@ -235,7 +235,7 @@ size_t curl_write_response(void *ptr, size_t size, size_t nmemb, void *stream) {
   void *newdata;
   size_t realsize = size * nmemb;
   response_t *mem = stream;
-  log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "Curl write response: %d",
+  log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "Curl write response: %zu",
                      realsize);
   newdata = realloc(mem->data, mem->size + realsize + 1);
   if (newdata) {
@@ -245,7 +245,7 @@ size_t curl_write_response(void *ptr, size_t size, size_t nmemb, void *stream) {
     mem->data[mem->size] = '\0';
   } else {
     log4c_category_log(logcat, LOG4C_PRIORITY_FATAL,
-                       "failed to reallocate %zd bytes\n",
+                       "failed to reallocate %zu bytes\n",
                        mem->size + realsize + 1);
     return 0;
   }
@@ -278,21 +278,21 @@ int read_archive(response_t *response, const char *filename, magic_t *magic,
       not_found = 1;
       size_t entry_size = archive_entry_size(entry);
       log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG,
-                         "\tExtracting file: %s, size: %d", entryname,
+                         "\tExtracting file: %s, size: %zu", entryname,
                          entry_size);
       if (0 < entry_size) {
         void *file_contents = malloc(entry_size);
         int dr = archive_read_data(a, file_contents, entry_size);
         log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG,
-                           "\tBytes Extracted: %d", dr);
-        log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "\tBytes Expected: %d",
+                           "\tBytes Extracted: %zu", dr);
+        log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "\tBytes Expected: %zu",
                            entry_size);
         if (ARCHIVE_OK < dr) {
           const char *mime = magic_buffer(*magic, file_contents, entry_size);
           log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "\tMime-type: %s",
                              mime);
           FCGX_FPrintF(request->out, "Content-Type: %s\r\n", mime);
-          FCGX_FPrintF(request->out, "Content-Length: %d\r\n\r\n", dr);
+          FCGX_FPrintF(request->out, "Content-Length: %zu\r\n\r\n", dr);
           FCGX_PutStr(file_contents, dr, request->out);
         }
         free(file_contents);
@@ -335,12 +335,12 @@ ssize_t archive_read(__attribute__((unused)) struct archive *a,
   log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "Curl: %s\n",
                      curl_easy_strerror(mc));
 
-  log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "mem values %d, %d, %d",
+  log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "mem values %zu, %zu, %zu",
                      mem->size, mem->read, diff);
 
   *block = &mem->data[mem->read];
   mem->read += diff;
-  log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "mem values %d, %d, %d",
+  log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "mem values %zu, %zu, %zu",
                      mem->size, mem->read, diff);
   return diff;
 }

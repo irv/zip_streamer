@@ -45,6 +45,13 @@ Here's the debian packages:
  - libmagic-dev
  - liblog4c-dev
 
+Here's the RedHat 6 ones if you're as unlucky as I am:
+ - libcurl-devel
+ - libarchive-devel
+ - log4c-devel
+ - fcgi-devel
+ - file-devel
+
 ## Build instructions
 `make`
 
