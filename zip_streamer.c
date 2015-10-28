@@ -284,7 +284,7 @@ int read_archive(response_t *response, const char *filename, magic_t *magic,
         void *file_contents = malloc(entry_size);
         int dr = archive_read_data(a, file_contents, entry_size);
         log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG,
-                           "\tBytes Extracted: %zu", dr);
+                           "\tBytes Extracted: %d", dr);
         log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "\tBytes Expected: %zu",
                            entry_size);
         if (ARCHIVE_OK < dr) {
