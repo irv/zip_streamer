@@ -9,11 +9,7 @@
 
 # build target specs
 CC = gcc
-GCCVERSION := := $(shell expr `gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 40801)
-CFLAGS = -g -O3 -std=c99 -Wall -Werror -Wextra -Wshadow -Wpointer-arith -Wstrict-prototypes -Wwrite-strings -Wunreachable-code -fno-omit-frame-pointer 
-ifeq "$(GCCVERSION)" "1"
-CFLAGS += -Wpedantic -fsanitize=address 
-endif
+CFLAGS = -g -O3 -std=c99 -Wall -Werror -Wextra -Wshadow -Wpointer-arith -Wstrict-prototypes -Wwrite-strings -Wunreachable-code -fno-omit-frame-pointer -Wpedantic -fsanitize=address 
 LIBS = -lcurl -larchive -lfcgi -lmagic -llog4c -pthread
 
 # first target entry is the target invoked when typing 'make'
