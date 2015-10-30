@@ -303,7 +303,7 @@ int read_archive(response_t *response, const char *filename, magic_t *magic,
           log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "\tMime-type: %s",
                              mime);
           FCGX_FPrintF(request->out, "Content-Type: %s\r\n", mime);
-          FCGX_FPrintF(request->out, "Content-Length: %zu\r\n\r\n", dr);
+          FCGX_FPrintF(request->out, "Content-Length: %d\r\n\r\n", dr);
           FCGX_PutStr(file_contents, dr, request->out);
         }
         free(file_contents);
