@@ -157,9 +157,19 @@ void *fcgi_worker(void *a) {
       FCGX_Finish_r(&request);
       continue;
     }
-    char *zip = malloc(strlen(request_uri) * sizeof(*request_uri));
-    char *entry = malloc(strlen(request_uri) * sizeof(*request_uri));
-    if (2 != sscanf(request_uri, "/%[^/]/%s", zip, entry)) {
+    int newlen;
+    char *decoded_uri = curl_easy_unescape(http_handle, request_uri, 0, &newlen);
+    if (NULL == decoded_uri) {
+      log4c_category_log(logcat, LOG4C_PRIORITY_ERROR, "Unable to url decode request URI: %s", request_uri);
+      failure(400, &request);
+      FCGX_Finish_r(&request);
+      continue;
+    }
+    log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "URL Decoded REQUEST_URI: %s", decoded_uri);
+
+    char *zip = malloc(newlen * sizeof(*decoded_uri));
+    char *entry = malloc(newlen * sizeof(*decoded_uri));
+    if (2 != sscanf(decoded_uri, "/%[^/]/%s", zip, entry)) {
       failure(500, &request);
       goto clean;
     }
@@ -174,6 +184,7 @@ void *fcgi_worker(void *a) {
     memcpy(url + len1, zip, len2 + 1);
     log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG,
                        "Thread %d: Target URI: %s", id, url);
+    curl_free(decoded_uri);
     response_t response = {0, 0, 0, multi_handle, http_handle, url};
     int found = read_archive(&response, entry, &magic, &request);
     log4c_category_log(logcat, LOG4C_PRIORITY_DEBUG, "Found in archive: %d",
