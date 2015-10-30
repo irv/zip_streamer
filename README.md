@@ -40,17 +40,17 @@ I've run it through the clang static analyser to make sure I've not done anythin
 Here's the debian packages:
 
  - libarchive-dev
- - libcurl3
+ - libcurl3-dev
  - libfcgi-dev
  - libmagic-dev
  - liblog4c-dev
 
-Here's the RedHat 6 ones if you're as unlucky as I am:
- - libcurl-devel
- - libarchive-devel
- - log4c-devel
- - fcgi-devel
- - file-devel
+Here's the RedHat 7 ones:
+ - yum install libarchive-devel (in rhel-7-server-optional-rpms)
+ - yum install libcurl-devel (in rhel-7-server-rpms)
+ - yum install fcgi-devel (in Fedora EPEL7)
+ - yum install file-devel (in rhel-7-server-optional-rpms - includes libmagic)
+ - yum install log4c-devel (in Fedora EPEL7)
 
 ## Build instructions
 `make`
