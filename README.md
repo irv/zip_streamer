@@ -25,6 +25,8 @@ It uses libcurl, which respects the `HTTP_PROXY` environment variable, which is 
 
 I've run it through the clang static analyser to make sure I've not done anything really dumb, and also though valgrind's memcheck & helgrind, but reviews are welcome!
 
+## Note about logging
+It seems log4c is very sensitive about the version string in the log4crc file. On Debian unstable, it's 1.2.1 but on RHEL7 it appears to be 1.2.4. If you're not getting any log output, check the version number and update the log4crc file.
 
 ## Dependencies
 
